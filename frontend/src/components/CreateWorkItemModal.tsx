@@ -28,7 +28,7 @@ export const CreateWorkItemModal: React.FC<CreateWorkItemModalProps> = ({ isOpen
     }
 
     try {
-      const { item, wasCreated } = await createMutation.mutateAsync({
+      const item = await createMutation.mutateAsync({
         externalId: externalId.trim(),
         title: title.trim(),
         description: description.trim(),
