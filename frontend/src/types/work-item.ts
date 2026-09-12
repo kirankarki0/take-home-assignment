@@ -44,8 +44,3 @@ export interface ApiError {
   message: string;
   details?: Record<string, any>;
 }
-
-export interface CreateWorkItemResult {
-  item: WorkItem;
-  wasCreated: boolean;   // true → 201 (new), false → 200 (idempotent duplicate)
-}

@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import type { WorkItem, CreateWorkItemPayload, ApiError, CreateWorkItemResult } from '../types/work-item';
+import type { WorkItem, CreateWorkItemPayload, ApiError } from '../types/work-item';
 
 const API_BASE = '/api';
 
@@ -33,14 +33,13 @@ export async function fetchWorkItem(id: string): Promise<WorkItem> {
   return handleResponse<WorkItem>(res);
 }
 
-export async function createWorkItem(payload: CreateWorkItemPayload) : Promise<CreateWorkItemResult> {
+export async function createWorkItem(payload: CreateWorkItemPayload) : Promise<WorkItem> {
   const res = await fetch(`${API_BASE}/work-items/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
-  const item = await handleResponse<WorkItem>(res);
-  return { item, wasCreated: res.status === 201 };
+  return handleResponse<WorkItem>(res);
 }
 
 export async function triggerAnalysis(id: string): Promise<WorkItem> {
@@ -86,7 +85,7 @@ export function useWorkItem(id?: string) {
 
 export function useCreateWorkItem() {
   const queryClient = useQueryClient();
-  return useMutation<CreateWorkItemResult, ApiError, CreateWorkItemPayload>({
+  return useMutation<WorkItem, ApiError, CreateWorkItemPayload>({
     mutationFn: createWorkItem,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['work-items'] });

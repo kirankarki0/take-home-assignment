@@ -21,25 +21,9 @@ function OperationsDashboard() {
 
   const { data: selectedItem } = useWorkItem(selectedItemId || undefined);
 
-  const [toast, setToast] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!toast) return;
-    const timer = setTimeout(() => setToast(null), 4000);
-    return () => clearTimeout(timer);
-  }, [toast]);
-
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
 
-      {toast && (
-        <div
-          role="status"
-          className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white text-sm px-4 py-2 rounded-lg shadow-lg animate-in fade-in slide-in-from-top-2"
-        >
-          {toast}
-        </div>
-      )}
       {/* Top Navigation */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -96,9 +80,6 @@ function OperationsDashboard() {
         onSuccess={(newId) => {
           setSelectedItemId(newId);
         }}
-        onDuplicate={() =>
-          setToast('That work item already existed — showing the existing record.')
-        }
       />
     </div>
   );

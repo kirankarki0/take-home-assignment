@@ -6,10 +6,9 @@ interface CreateWorkItemModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: (id: string) => void;
-  onDuplicate?: () => void;
 }
 
-export const CreateWorkItemModal: React.FC<CreateWorkItemModalProps> = ({ isOpen, onClose, onSuccess, onDuplicate }) => {
+export const CreateWorkItemModal: React.FC<CreateWorkItemModalProps> = ({ isOpen, onClose, onSuccess }) => {
   const [externalId, setExternalId] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -36,11 +35,8 @@ export const CreateWorkItemModal: React.FC<CreateWorkItemModalProps> = ({ isOpen
       });
       onSuccess(item.id);
       onClose();
-      if (!wasCreated) {
-        onDuplicate?.();
-      }
     }  catch (err: unknown) {
-        const message =
+      const message =
         err && typeof err === 'object' && 'message' in err
           ? String((err as { message: unknown }).message)
           : 'Failed to ingest work item.';
